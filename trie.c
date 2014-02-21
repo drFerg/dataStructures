@@ -14,8 +14,6 @@
 #define PRINTF(...)
 #endif
 
-int total = 0;
-
 typedef struct node {
   char c;
   short isWord;
@@ -39,6 +37,7 @@ Node *createNode(char c){
   return n;
 }
 
+/* internal function for traversing/adding new characters */
 void trace(Node *n, char *word, int len) {
   if (n->c == word[0]) { /* node matches char */
     if (len == 1) { 
@@ -56,6 +55,7 @@ void trace(Node *n, char *word, int len) {
   }
 }
 
+/* internal function for traversing/finding characters */
 int find(Node *n, char *word, int len){
   if (n->c == word[0]){ /* node matches char */
     if (len == 1){ 
@@ -68,6 +68,7 @@ int find(Node *n, char *word, int len){
   else return 0; /* word doesn't match as node has no siblings */
 }
 
+/* creates, initialises and returns a new trie struct*/
 Trie *init_trie(){
   Trie *t = (Trie *) malloc(sizeof(Trie));
   t->child = NULL;
@@ -75,6 +76,7 @@ Trie *init_trie(){
   return t;
 }
 
+/* puts a new word into the supplied trie */
 void put(Trie *t, char *word, int len) {
   PRINTF("%s\n", word);
   if (t->child == NULL) t->child = createNode(word[0]);
@@ -82,12 +84,14 @@ void put(Trie *t, char *word, int len) {
   t->size += len * sizeof(Trie);
 }
 
+/* checks if a word exists in the supplied trie */
 int get(Trie *t, char *word, int len) {
   if (t) return find(t->child, word, len);
   else PRINTF("No trie passed\n");
   return 0;
 }
 
+/* returns the size of the supplied trie */
 int size(Trie *t){
-  return total;
+  return t->total;
 }
