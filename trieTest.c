@@ -14,11 +14,11 @@ int main(int argc, char const *argv[])
     put(t, "fergus", 6);
     put(t, "fergul", 6);
     put(t, "fergal", 6);
-    int suc = get(t, "fergus", 6);
+    int suc = search(t, "fergus", 6);
     printf("fergus %d\n", suc);
-    suc = get(t, "fergul", 6);
+    suc = search(t, "fergul", 6);
     printf("fergul %d\n", suc);
-    suc = get(t, "fergal", 6);
+    suc = search(t, "fergal", 6);
     printf("fergal %d\n", suc);
     return 0;
 }

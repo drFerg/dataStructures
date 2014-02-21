@@ -17,7 +17,7 @@ Trie *init_trie();
 void put(Trie *t, char *word, int len);
 
 /* checks if a word exists in the supplied trie */
-int get(Trie *t, char *word, int len);
+int search(Trie *t, char *word, int len);
 
 /* returns the size of the supplied trie */
 int size(Trie *t);

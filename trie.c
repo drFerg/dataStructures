@@ -85,7 +85,7 @@ void put(Trie *t, char *word, int len) {
 }
 
 /* checks if a word exists in the supplied trie */
-int get(Trie *t, char *word, int len) {
+int search(Trie *t, char *word, int len) {
   if (t) return find(t->child, word, len);
   else PRINTF("No trie passed\n");
   return 0;

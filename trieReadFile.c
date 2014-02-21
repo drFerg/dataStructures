@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
 
     while (1) {
         scanf("%s", query);
-        printf("%zu: %s\n", strlen(query), (get(t, query, strlen(query)) ? "found" : "not found"));
+        printf("%zu: %s\n", strlen(query), (search(t, query, strlen(query)) ? "found" : "not found"));
     }
 
 }
