@@ -11,15 +11,15 @@
 typedef struct trie Trie;
 
 /* creates, initialises and returns a new trie struct*/
-Trie *init_trie();
+Trie *trie_create();
 
 /* puts a new word of size len into the supplied trie */
-void put(Trie *t, char *word, int len);
+void trie_put(Trie *t, char *word, int len);
 
 /* checks if a word exists in the supplied trie */
-int search(Trie *t, char *word, int len);
+int trie_search(Trie *t, char *word, int len);
 
 /* returns the size of the supplied trie */
-int size(Trie *t);
+int trie_size(Trie *t);
 
 #endif /* TRIE_H */

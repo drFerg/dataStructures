@@ -14,21 +14,21 @@
 #define PRINTF(...)
 #endif
 
-typedef struct node {
+typedef struct tnode {
   char c;
   short isWord;
-  struct node* sibling;
-  struct node* child;
-}Node;
+  struct tnode* sibling;
+  struct tnode* child;
+}TNode;
 
 struct trie {
-  struct node *child;
+  struct tnode *child;
   int size;
 };
 
 /* Helper function for creating a node */
-Node *createNode(char c){
-  Node *n = (Node *) malloc(sizeof(Node));
+TNode *createNode(char c){
+  TNode *n = (TNode *) malloc(sizeof(TNode));
   if (!n) return NULL;
   n->c = c;
   n->isWord = 0;
@@ -38,7 +38,7 @@ Node *createNode(char c){
 }
 
 /* internal function for traversing/adding new characters */
-void trace(Node *n, char *word, int len) {
+void triePut(TNode *n, char *word, int len) {
   if (n->c == word[0]) { /* node matches char */
     if (len == 1) { 
       n->isWord = 1; /* last char, so set as word*/
@@ -47,29 +47,30 @@ void trace(Node *n, char *word, int len) {
     else if (!n->child) { /* no child, add char */
       n->child = createNode(word[1]);
     }
-    trace(n->child, ++word, --len); /* try matching/adding next child char */
+    triePut(n->child, ++word, --len); /* try matching/adding next child char */
   } 
   else { /* no match, try siblings */
     if (!n->sibling) n->sibling = createNode(word[0]); /* no sibling, add char */
-    trace(n->sibling, word, len);/* try matching/adding next sibling char */
+    triePut(n->sibling, word, len);/* try matching/adding next sibling char */
   }
 }
 
 /* internal function for traversing/finding characters */
-int find(Node *n, char *word, int len){
+int trieSearch(TNode *n, char *word, int len){
+  printf(".");
   if (n->c == word[0]){ /* node matches char */
     if (len == 1){ 
       return n->isWord; /* word matches if last char is end of word */
     } /* check children for subsequent chars */
-    else if (n->child) return find(n->child, ++word, --len);
+    else if (n->child) return trieSearch(n->child, ++word, --len);
     else return 0; /* word doesn't match as node has no children */
   } /* no match, check siblings for match */
-  else if (n->sibling) return find(n->sibling, word, len);
+  else if (n->sibling) return trieSearch(n->sibling, word, len);
   else return 0; /* word doesn't match as node has no siblings */
 }
 
 /* creates, initialises and returns a new trie struct*/
-Trie *init_trie(){
+Trie *trie_create(){
   Trie *t = (Trie *) malloc(sizeof(Trie));
   t->child = NULL;
   t->size = 0;
@@ -77,21 +78,21 @@ Trie *init_trie(){
 }
 
 /* puts a new word into the supplied trie */
-void put(Trie *t, char *word, int len) {
+void trie_put(Trie *t, char *word, int len) {
   PRINTF("%s\n", word);
   if (t->child == NULL) t->child = createNode(word[0]);
-  trace(t->child, word, len);
+  triePut(t->child, word, len);
   t->size += len * sizeof(Trie);
 }
 
 /* checks if a word exists in the supplied trie */
-int search(Trie *t, char *word, int len) {
-  if (t) return find(t->child, word, len);
+int trie_search(Trie *t, char *word, int len) {
+  if (t) return trieSearch(t->child, word, len);
   else PRINTF("No trie passed\n");
   return 0;
 }
 
 /* returns the size of the supplied trie */
-int size(Trie *t){
-  return t->total;
+int trie_size(Trie *t){
+  return t->size;
 }

@@ -17,7 +17,7 @@ int main(int argc, char const *argv[])
     size_t bufLen = 0;
     ssize_t read;
     char query[SSIZE];
-    Trie *t = init_trie(t);
+    Trie *t = trie_create(t);
     printf("Trie initialisation %s\n",(t ? "succeeded": "failed"));
 
     fp = fopen(argv[1],"r");
@@ -26,13 +26,13 @@ int main(int argc, char const *argv[])
         line[read - 1] = '\0';
         //printf("Line: %s\n", line);
         //printf("Length: %zu\n", --read);
-        put(t, line, --read);
+        trie_put(t, line, --read);
         //printf("%s\n", (get(t, line, read) ? "Found" : "Lost"));
     }
 
     while (1) {
         scanf("%s", query);
-        printf("%zu: %s\n", strlen(query), (search(t, query, strlen(query)) ? "found" : "not found"));
+        printf("%zu: %s\n", strlen(query), (trie_search(t, query, strlen(query)) ? "found" : "not found"));
     }
 
 }
